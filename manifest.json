@@ -1,7 +1,8 @@
 {
-  "name": "Call with Google Voice",
-  "version": "4",
-  "description": "Links phone numbers found in web pages to the Google Voice dialer.",
+  "name": "Call with Click2Call",
+  "version": "0.1",
+  "description": "Links phone numbers found in web pages to Click2Call",
+  "options_page": "options.html",
   "icons": {
     "48": "icon48.png",
     "128": "icon128.png"

@@ -1,17 +1,13 @@
-var voiceBaseUrlRegEx = /^https?:\/\/www\.google\.com\/voice/
-var voiceBaseCallUrl = "https://www.google.com/voice/m/caller?number="
+//var voiceBaseCallUrl = localStorage["baseURLClick2Dial"];
+var voiceBaseCallUrl = "http://www.mydomain.com/Click2Dial.php&amp;call=";
+var phoneNumberRegExFR = /(0([-.\s]?\d[-.\s]?){9})/;
 
-var phoneNumberRegEx = /(?:^|[\s\(])(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?!\.\S|[^\s\)x\.])/
-var phoneNumberRegExMatcher = new RegExp(phoneNumberRegEx)
+var phoneNumberRegExMatcher = new RegExp(phoneNumberRegExFR);
 
-var blankTargetRegEx = /^https?:\/\/mail\.google\.com|https?:\/\/www\.google\.com\/contacts/
+var linkClass = "Clin2Call-link";
 
-var linkClass = "google-voice-link";
-
-if (!window.location.href.match(voiceBaseUrlRegEx)) {
-    linkPhoneNumbers(document.body);
-    document.body.addEventListener("DOMNodeInserted", OnNodeInserted, false);
-}
+linkPhoneNumbers(document.body);
+document.body.addEventListener("DOMNodeInserted", OnNodeInserted, false);
 
 function linkPhoneNumbers(node) {
     for (var i = 0; i < node.childNodes.length; ++i) {
@@ -32,8 +28,8 @@ function linkPhoneNumbers(node) {
                     continue;
                 }
 
-                var phoneNumber = "+1" + (phoneNumbers[1] ? phoneNumbers[1] : phoneNumbers[2]) + phoneNumbers[3] + phoneNumbers[4];
-                var formattedPhoneNumber = "(" + (phoneNumbers[1] ? phoneNumbers[1] : phoneNumbers[2]) + ") " + phoneNumbers[3] + "-" + phoneNumbers[4];
+		var phoneNumber = phoneNumbers[0].replace(/\s+|-+|\.+/g, '');
+                var formattedPhoneNumber = phoneNumbers[0];
 
                 var image = document.createElement("img");
                 image.src = chrome.extension.getURL("icon48.png");
@@ -42,10 +38,8 @@ function linkPhoneNumbers(node) {
 
                 var link = document.createElement("a");
                 link.href = voiceBaseCallUrl + phoneNumber;
-                if (window.location.href.match(blankTargetRegEx)) {
-                    link.target = "_blank";
-                }
-                link.title = "Call " + formattedPhoneNumber + " with Google Voice";
+		/*link.target = "_blank";*/
+                link.title = "Call " + formattedPhoneNumber + " with ClickCall";
                 link.class = linkClass;
                 link.style.marginLeft = "0.25em";
                 link.appendChild(image);
