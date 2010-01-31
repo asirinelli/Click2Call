@@ -1,0 +1,14 @@
+<html>
+<head>
+<script>
+chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+  if (request == "BaseURL") {
+    var voiceBaseCallUrl = localStorage["baseURLClick2Dial"];
+    sendResponse(voiceBaseCallUrl);
+  }
+  else 
+    sendResponse("");
+});
+</script>
+</head>
+</html>

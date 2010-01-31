@@ -53,10 +53,11 @@ body {
 <div id="header"><h1>Click2Dial Options</h1></div>
 
 <div class="section-header first">URL</div>
-<p>To use Click2Dial, please provide the base URL to be used:
+<p>To use Click2Dial, please provide the base URL to be used.
+<p> In your URL, <em>%s<em> will be replaced by the telephone number.
 <p>
 <input type="text" id="base-url" oninput="markDirty()">
-    <em>(eg http://mydomain.com/Click2Dial.php&amp;call=)</em>
+    <em>(eg http://mydomain.com/Click2Dial.php?call=%s&amp;user=test)</em>
 
 <div id="footer">
   <button id="save-button" style="font-weight:bold" onclick="save()"

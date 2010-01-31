@@ -1,13 +1,18 @@
-//var voiceBaseCallUrl = localStorage["baseURLClick2Dial"];
-var voiceBaseCallUrl = "http://www.mydomain.com/Click2Dial.php&amp;call=";
+
+
 var phoneNumberRegExFR = /(0([-.\s]?\d[-.\s]?){9})/;
-
 var phoneNumberRegExMatcher = new RegExp(phoneNumberRegExFR);
-
 var linkClass = "Clin2Call-link";
+var voiceBaseCallUrl = "";
 
-linkPhoneNumbers(document.body);
+chrome.extension.sendRequest("BaseURL", get_request);
 document.body.addEventListener("DOMNodeInserted", OnNodeInserted, false);
+
+function get_request(rep)
+{
+    voiceBaseCallUrl = rep;
+    linkPhoneNumbers(document.body, rep);
+}
 
 function linkPhoneNumbers(node) {
     for (var i = 0; i < node.childNodes.length; ++i) {
@@ -37,8 +42,8 @@ function linkPhoneNumbers(node) {
                 image.style.height = "1em";
 
                 var link = document.createElement("a");
-                link.href = voiceBaseCallUrl + phoneNumber;
-		/*link.target = "_blank";*/
+                link.href = voiceBaseCallUrl.replace("%s", phoneNumber);
+		link.target = "_blank";
                 link.title = "Call " + formattedPhoneNumber + " with ClickCall";
                 link.class = linkClass;
                 link.style.marginLeft = "0.25em";
